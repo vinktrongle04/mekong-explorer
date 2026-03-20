@@ -1,0 +1,276 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  directUrl  = env("DIRECT_URL")
+  extensions = [postgis(version: "3.3.2"), uuidOdsp(map: "uuid-ossp")]
+}
+
+enum Role {
+  USER
+  MODERATOR
+  ADMIN
+}
+
+enum PlaceStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  FLAGGED
+}
+
+enum ContentStatus {
+  PENDING
+  APPROVED
+  FLAGGED
+  HIDDEN
+}
+
+enum ReportStatus {
+  OPEN
+  INVESTIGATING
+  RESOLVED
+  DISMISSED
+}
+
+enum MediaPlatform {
+  TIKTOK
+  FACEBOOK
+  YOUTUBE
+}
+
+enum MediaStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model User {
+  id           String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  email        String   @unique
+  passwordHash String
+  role         Role     @default(USER)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relationships
+  profile     UserProfile?
+  placesAdded Place[]      @relation("PlacesCreatedByUser")
+  reviews     Review[]
+  photos      Photo[]
+  bookmarks   Bookmark[]
+  checkins    Checkin[]
+  reports     Report[]     @relation("ReportsCreatedByUser")
+  submissions PlaceSubmission[]
+  approvedSubs PlaceSubmission[] @relation("SubmissionsReviewedByAdmin")
+  resolvedRpts Report[]          @relation("ReportsResolvedByAdmin")
+  mediaLinks   PlaceMediaLink[]  @relation("MediaLinksSubmittedByUser")
+
+  @@map("users")
+}
+
+model UserProfile {
+  id          String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  userId      String   @unique @db.Uuid
+  username    String   @unique
+  displayName String?
+  avatarUrl   String?
+  bio         String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([username])
+  @@map("user_profiles")
+}
+
+model Category {
+  id        String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name      String   @unique
+  slug      String   @unique
+  iconName  String?
+  createdAt DateTime @default(now())
+
+  places Place[]
+
+  @@index([slug])
+  @@map("categories")
+}
+
+model Place {
+  id          String       @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name        String
+  slug        String       @unique
+  description String
+  categoryId  String       @db.Uuid
+  
+  // Geolocation Support (PostGIS Integration)
+  // Float versions for standard ORM usage
+  latitude    Float
+  longitude   Float
+  // Raw PostGIS Geography point handled via Unsupported for raw spatial queries
+  location    Unsupported("geography(Point, 4326)")?
+
+  address     String?
+  province    String
+
+  // Aggregates
+  averageRating Float @default(0.0)
+  reviewCount   Int   @default(0)
+  checkinCount  Int   @default(0)
+
+  status    PlaceStatus @default(PENDING)
+  createdById String?     @db.Uuid
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships
+  category    Category          @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  creator     User?             @relation("PlacesCreatedByUser", fields: [createdById], references: [id], onDelete: SetNull)
+  reviews     Review[]
+  photos      Photo[]
+  submissions PlaceSubmission[]
+  bookmarks   Bookmark[]
+  checkins    Checkin[]
+  mediaLinks  PlaceMediaLink[]
+
+  // Indexes for location searching, category, and rating
+  @@index([latitude, longitude], name: "idx_place_coordinates")
+  @@index([categoryId])
+  @@index([averageRating(sort: Desc), reviewCount(sort: Desc)], name: "idx_place_rating")
+  @@index([province])
+  @@index([status])
+  @@map("places")
+}
+
+model PlaceSubmission {
+  id              String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  placeId         String   @db.Uuid
+  submittedById   String   @db.Uuid
+  proposedChanges Json
+  status          ContentStatus @default(PENDING)
+  reviewedById    String?  @db.Uuid
+  reviewedAt      DateTime?
+  createdAt       DateTime @default(now())
+
+  place       Place @relation(fields: [placeId], references: [id], onDelete: Cascade)
+  submitter   User  @relation(fields: [submittedById], references: [id], onDelete: Cascade)
+  reviewer    User? @relation("SubmissionsReviewedByAdmin", fields: [reviewedById], references: [id], onDelete: SetNull)
+
+  @@index([status])
+  @@map("place_submissions")
+}
+
+model Review {
+  id        String        @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  placeId   String        @db.Uuid
+  userId    String        @db.Uuid
+  rating    Int
+  content   String?
+  status    ContentStatus @default(APPROVED)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  place  Place   @relation(fields: [placeId], references: [id], onDelete: Cascade)
+  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  photos Photo[]
+
+  @@unique([userId, placeId], name: "unique_user_place_review")
+  @@index([placeId, status])
+  @@map("reviews")
+}
+
+model Photo {
+  id           String        @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  uploaderId   String?       @db.Uuid
+  placeId      String        @db.Uuid
+  reviewId     String?       @db.Uuid
+  rawUrl       String
+  webpUrl      String
+  thumbnailUrl String
+  status       ContentStatus @default(PENDING)
+  createdAt    DateTime      @default(now())
+
+  uploader User?   @relation(fields: [uploaderId], references: [id], onDelete: SetNull)
+  place    Place   @relation(fields: [placeId], references: [id], onDelete: Cascade)
+  review   Review? @relation(fields: [reviewId], references: [id], onDelete: SetNull)
+
+  @@index([placeId, status])
+  @@map("photos")
+}
+
+model Bookmark {
+  id        String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  userId    String   @db.Uuid
+  placeId   String   @db.Uuid
+  createdAt DateTime @default(now())
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  place Place @relation(fields: [placeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, placeId], name: "unique_user_bookmark")
+  @@index([userId])
+  @@map("bookmarks")
+}
+
+model Checkin {
+  id          String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  userId      String   @db.Uuid
+  placeId     String   @db.Uuid
+  checkinTime DateTime @default(now())
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  place Place @relation(fields: [placeId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([placeId])
+  @@map("checkins")
+}
+
+model Report {
+  id           String       @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  reporterId   String?      @db.Uuid
+  targetType   String       // User, Place, Review, Photo
+  targetId     String       @db.Uuid
+  reason       String
+  status       ReportStatus @default(OPEN)
+  resolvedById String?      @db.Uuid
+  resolvedAt   DateTime?
+  createdAt    DateTime     @default(now())
+
+  reporter User?  @relation("ReportsCreatedByUser", fields: [reporterId], references: [id], onDelete: SetNull)
+  resolver User?  @relation("ReportsResolvedByAdmin", fields: [resolvedById], references: [id], onDelete: SetNull)
+
+  @@index([status])
+  @@index([targetType, targetId])
+  @@map("reports")
+}
+
+model PlaceMediaLink {
+  id          String        @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  placeId     String        @db.Uuid
+  submittedById String?     @db.Uuid
+  url         String
+  embedUrl    String        // pre-computed embed URL
+  platform    MediaPlatform
+  status      MediaStatus   @default(PENDING)
+  likeCount   Int           @default(0)
+  createdAt   DateTime      @default(now())
+
+  place       Place  @relation(fields: [placeId], references: [id], onDelete: Cascade)
+  submittedBy User?  @relation("MediaLinksSubmittedByUser", fields: [submittedById], references: [id], onDelete: SetNull)
+
+  @@unique([placeId, url], name: "unique_place_media_url")
+  @@index([placeId, status])
+  @@index([platform])
+  @@map("place_media_links")
+}

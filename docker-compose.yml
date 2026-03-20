@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgis/postgis:15-3.3
+    container_name: mekong_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres_password
+      POSTGRES_DB: mekong_explorer
+    ports:
+      - '5432:5432'
+    volumes:
+      - mekong_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d mekong_explorer"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Optionally run backend via Docker (mostly for testing production builds locally)
+  # For active development, `npm run start:dev` inside /apps/api is recommended.
+  api:
+    build: 
+      context: ./api
+      # Dockerfile needed in /api if you want to use this service
+    container_name: mekong_api
+    ports:
+      - '3000:3000'
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres_password@db:5432/mekong_explorer?schema=public
+      - JWT_SECRET=local_docker_jwt_secret
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  mekong_pgdata:

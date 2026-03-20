@@ -1,0 +1,61 @@
+﻿node.exe : [96msrc/adm
+in/admin.service.ts[0m
+:[93m34[0m:[93m37[0
+m - 
+[91merror[0m[90m 
+TS2339: [0mProperty 
+'REJECTED' does not 
+exist on type '{ 
+PENDING: "PENDING"; 
+APPROVED: "APPROVED"; 
+FLAGGED: "FLAGGED"; 
+HIDDEN: "HIDDEN"; }'.
+At line:1 char:1
++ & "C:\Program 
+Files\nodejs/node.exe" 
+"C:\Users\LE TRONG 
+VINH\AppData\ ...
++ ~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~
+    + CategoryInfo     
+         : NotSpecifi  
+  ed: ([96msrc/admi   
+ n/...: "HIDDEN"; }    
+'.:String) [], Rem    
+oteException
+    + FullyQualifiedEr 
+   rorId : NativeComm  
+  andError
+ 
+
+[7m34[0m       data: 
+{ status: ContentStatus
+.REJECTED, reviewedAt: 
+new Date() }
+[7m  [0m [91m       
+                       
+      ~~~~~~~~[0m
+[96msrc/media-links/me
+dia-links.repository.ts
+[0m:[93m2[0m:[93m31
+[0m - 
+[91merror[0m[90m 
+TS2307: [0mCannot 
+find module '../../pris
+ma/prisma.service' or 
+its corresponding type 
+declarations.
+
+[7m2[0m import { 
+PrismaService } from '.
+./../prisma/prisma.serv
+ice';
+[7m [0m [91m        
+                      ~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~[0m
+
+Found 2 error(s).
+
