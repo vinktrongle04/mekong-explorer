@@ -10,10 +10,18 @@ export class MediaLinksRepository {
     placeId: string;
     submittedById: string | null;
     url: string;
-    embedUrl: string;
-    platform: 'TIKTOK' | 'FACEBOOK' | 'YOUTUBE';
+    embedUrl?: string;
+    platform?: 'TIKTOK' | 'FACEBOOK' | 'YOUTUBE';
   }) {
     return this.prisma.placeMediaLink.create({ data: { ...data, status: MediaStatus.PENDING } });
+  }
+
+  async updateProcessed(id: string, data: {
+    embedUrl: string;
+    platform: 'TIKTOK' | 'FACEBOOK' | 'YOUTUBE';
+    status: MediaStatus;
+  }) {
+    return this.prisma.placeMediaLink.update({ where: { id }, data });
   }
 
   async findApprovedByPlace(placeId: string) {

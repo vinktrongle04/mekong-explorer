@@ -1,0 +1,422 @@
+﻿docker : node:internal/mo
+dules/cjs/loader:1210
+At line:1 char:1
++ docker logs mekong-api 
+2>&1 | Out-File 
+-FilePath "C:\Users\LE 
+TRONG V ...
++ ~~~~~~~~~~~~~~~~~~~~~~~
+~~~~
+    + CategoryInfo       
+       : NotSpecified:   
+  (node:internal/modul   
+ es/cjs/loader:1210:S    
+tring) [], RemoteExc    
+eption
+    + FullyQualifiedErro 
+   rId : NativeCommandE  
+  rror
+ 
+  throw err;
+  ^
+
+Error: Cannot find 
+module 
+'/app/api/dist/main.js'
+    at 
+Module._resolveFilename (
+node:internal/modules/cjs
+/loader:1207:15)
+    at Module._load (node
+:internal/modules/cjs/loa
+der:1038:27)
+    at Function.executeUs
+erEntryPoint [as 
+runMain] (node:internal/m
+odules/run_main:164:12)
+    at node:internal/main
+/run_main_module:28:49 {
+  code: 
+'MODULE_NOT_FOUND',
+  requireStack: []
+}
+
+Node.js v20.20.1
+node:internal/modules/cjs
+/loader:1210
+  throw err;
+  ^
+
+Error: Cannot find 
+module 
+'/app/api/dist/main.js'
+    at 
+Module._resolveFilename (
+node:internal/modules/cjs
+/loader:1207:15)
+    at Module._load (node
+:internal/modules/cjs/loa
+der:1038:27)
+    at Function.executeUs
+erEntryPoint [as 
+runMain] (node:internal/m
+odules/run_main:164:12)
+    at node:internal/main
+/run_main_module:28:49 {
+  code: 
+'MODULE_NOT_FOUND',
+  requireStack: []
+}
+
+Node.js v20.20.1
+node:internal/modules/cjs
+/loader:1210
+  throw err;
+  ^
+
+Error: Cannot find 
+module 
+'/app/api/dist/main.js'
+    at 
+Module._resolveFilename (
+node:internal/modules/cjs
+/loader:1207:15)
+    at Module._load (node
+:internal/modules/cjs/loa
+der:1038:27)
+    at Function.executeUs
+erEntryPoint [as 
+runMain] (node:internal/m
+odules/run_main:164:12)
+    at node:internal/main
+/run_main_module:28:49 {
+  code: 
+'MODULE_NOT_FOUND',
+  requireStack: []
+}
+
+Node.js v20.20.1
+node:internal/modules/cjs
+/loader:1210
+  throw err;
+  ^
+
+Error: Cannot find 
+module 
+'/app/api/dist/main.js'
+    at 
+Module._resolveFilename (
+node:internal/modules/cjs
+/loader:1207:15)
+    at Module._load (node
+:internal/modules/cjs/loa
+der:1038:27)
+    at Function.executeUs
+erEntryPoint [as 
+runMain] (node:internal/m
+odules/run_main:164:12)
+    at node:internal/main
+/run_main_module:28:49 {
+  code: 
+'MODULE_NOT_FOUND',
+  requireStack: []
+}
+
+Node.js v20.20.1
+node:internal/modules/cjs
+/loader:1210
+  throw err;
+  ^
+
+Error: Cannot find 
+module 
+'/app/api/dist/main.js'
+    at 
+Module._resolveFilename (
+node:internal/modules/cjs
+/loader:1207:15)
+    at Module._load (node
+:internal/modules/cjs/loa
+der:1038:27)
+    at Function.executeUs
+erEntryPoint [as 
+runMain] (node:internal/m
+odules/run_main:164:12)
+    at node:internal/main
+/run_main_module:28:49 {
+  code: 
+'MODULE_NOT_FOUND',
+  requireStack: []
+}
+
+Node.js v20.20.1
+node:internal/modules/cjs
+/loader:1210
+  throw err;
+  ^
+
+Error: Cannot find 
+module 
+'/app/api/dist/main.js'
+    at 
+Module._resolveFilename (
+node:internal/modules/cjs
+/loader:1207:15)
+    at Module._load (node
+:internal/modules/cjs/loa
+der:1038:27)
+    at Function.executeUs
+erEntryPoint [as 
+runMain] (node:internal/m
+odules/run_main:164:12)
+    at node:internal/main
+/run_main_module:28:49 {
+  code: 
+'MODULE_NOT_FOUND',
+  requireStack: []
+}
+
+Node.js v20.20.1
+node:internal/modules/cjs
+/loader:1210
+  throw err;
+  ^
+
+Error: Cannot find 
+module 
+'/app/api/dist/main.js'
+    at 
+Module._resolveFilename (
+node:internal/modules/cjs
+/loader:1207:15)
+    at Module._load (node
+:internal/modules/cjs/loa
+der:1038:27)
+    at Function.executeUs
+erEntryPoint [as 
+runMain] (node:internal/m
+odules/run_main:164:12)
+    at node:internal/main
+/run_main_module:28:49 {
+  code: 
+'MODULE_NOT_FOUND',
+  requireStack: []
+}
+
+Node.js v20.20.1
+node:internal/modules/cjs
+/loader:1210
+  throw err;
+  ^
+
+Error: Cannot find 
+module 
+'/app/api/dist/main.js'
+    at 
+Module._resolveFilename (
+node:internal/modules/cjs
+/loader:1207:15)
+    at Module._load (node
+:internal/modules/cjs/loa
+der:1038:27)
+    at Function.executeUs
+erEntryPoint [as 
+runMain] (node:internal/m
+odules/run_main:164:12)
+    at node:internal/main
+/run_main_module:28:49 {
+  code: 
+'MODULE_NOT_FOUND',
+  requireStack: []
+}
+
+Node.js v20.20.1
+node:internal/modules/cjs
+/loader:1210
+  throw err;
+  ^
+
+Error: Cannot find 
+module 
+'/app/api/dist/main.js'
+    at 
+Module._resolveFilename (
+node:internal/modules/cjs
+/loader:1207:15)
+    at Module._load (node
+:internal/modules/cjs/loa
+der:1038:27)
+    at Function.executeUs
+erEntryPoint [as 
+runMain] (node:internal/m
+odules/run_main:164:12)
+    at node:internal/main
+/run_main_module:28:49 {
+  code: 
+'MODULE_NOT_FOUND',
+  requireStack: []
+}
+
+Node.js v20.20.1
+node:internal/modules/cjs
+/loader:1210
+  throw err;
+  ^
+
+Error: Cannot find 
+module 
+'/app/api/dist/main.js'
+    at 
+Module._resolveFilename (
+node:internal/modules/cjs
+/loader:1207:15)
+    at Module._load (node
+:internal/modules/cjs/loa
+der:1038:27)
+    at Function.executeUs
+erEntryPoint [as 
+runMain] (node:internal/m
+odules/run_main:164:12)
+    at node:internal/main
+/run_main_module:28:49 {
+  code: 
+'MODULE_NOT_FOUND',
+  requireStack: []
+}
+
+Node.js v20.20.1
+node:internal/modules/cjs
+/loader:1210
+  throw err;
+  ^
+
+Error: Cannot find 
+module 
+'/app/api/dist/main.js'
+    at 
+Module._resolveFilename (
+node:internal/modules/cjs
+/loader:1207:15)
+    at Module._load (node
+:internal/modules/cjs/loa
+der:1038:27)
+    at Function.executeUs
+erEntryPoint [as 
+runMain] (node:internal/m
+odules/run_main:164:12)
+    at node:internal/main
+/run_main_module:28:49 {
+  code: 
+'MODULE_NOT_FOUND',
+  requireStack: []
+}
+
+Node.js v20.20.1
+node:internal/modules/cjs
+/loader:1210
+  throw err;
+  ^
+
+Error: Cannot find 
+module 
+'/app/api/dist/main.js'
+    at 
+Module._resolveFilename (
+node:internal/modules/cjs
+/loader:1207:15)
+    at Module._load (node
+:internal/modules/cjs/loa
+der:1038:27)
+    at Function.executeUs
+erEntryPoint [as 
+runMain] (node:internal/m
+odules/run_main:164:12)
+    at node:internal/main
+/run_main_module:28:49 {
+  code: 
+'MODULE_NOT_FOUND',
+  requireStack: []
+}
+
+Node.js v20.20.1
+node:internal/modules/cjs
+/loader:1210
+  throw err;
+  ^
+
+Error: Cannot find 
+module 
+'/app/api/dist/main.js'
+    at 
+Module._resolveFilename (
+node:internal/modules/cjs
+/loader:1207:15)
+    at Module._load (node
+:internal/modules/cjs/loa
+der:1038:27)
+    at Function.executeUs
+erEntryPoint [as 
+runMain] (node:internal/m
+odules/run_main:164:12)
+    at node:internal/main
+/run_main_module:28:49 {
+  code: 
+'MODULE_NOT_FOUND',
+  requireStack: []
+}
+
+Node.js v20.20.1
+node:internal/modules/cjs
+/loader:1210
+  throw err;
+  ^
+
+Error: Cannot find 
+module 
+'/app/api/dist/main.js'
+    at 
+Module._resolveFilename (
+node:internal/modules/cjs
+/loader:1207:15)
+    at Module._load (node
+:internal/modules/cjs/loa
+der:1038:27)
+    at Function.executeUs
+erEntryPoint [as 
+runMain] (node:internal/m
+odules/run_main:164:12)
+    at node:internal/main
+/run_main_module:28:49 {
+  code: 
+'MODULE_NOT_FOUND',
+  requireStack: []
+}
+
+Node.js v20.20.1
+node:internal/modules/cjs
+/loader:1210
+  throw err;
+  ^
+
+Error: Cannot find 
+module 
+'/app/api/dist/main.js'
+    at 
+Module._resolveFilename (
+node:internal/modules/cjs
+/loader:1207:15)
+    at Module._load (node
+:internal/modules/cjs/loa
+der:1038:27)
+    at Function.executeUs
+erEntryPoint [as 
+runMain] (node:internal/m
+odules/run_main:164:12)
+    at node:internal/main
+/run_main_module:28:49 {
+  code: 
+'MODULE_NOT_FOUND',
+  requireStack: []
+}
+
+Node.js v20.20.1

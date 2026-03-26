@@ -1,0 +1,75 @@
+﻿≡ƒî▒ Starting seed...
+node.exe : PrismaClient
+InitializationError: 
+At line:1 char:1
++ & "C:\Program 
+Files\nodejs/node.exe" 
+"C:\Users\LE TRONG 
+VINH\AppData\ ...
++ ~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~
+    + CategoryInfo     
+         : NotSpecifi  
+  ed: (PrismaClientI   
+ nitializationError    
+: :String) [], Rem    
+oteException
+    + FullyQualifiedEr 
+   rorId : NativeComm  
+  andError
+ 
+Invalid `prisma.categor
+y.upsert()` invocation 
+in
+C:\Users\LE TRONG VINH\
+Desktop\mekong-explorer
+\api\prisma\seed.ts:19:
+27
+
+  16 ];
+  17 
+  18 for (const cat of 
+categories) {
+ΓåÆ 19   await 
+prisma.category.upsert(
+Error querying the 
+database: FATAL: 
+Tenant or user not 
+found
+    at 
+$n.handleRequestError 
+(C:\Users\LE TRONG VINH
+\Desktop\mekong-explore
+r\node_modules\@prisma\
+client\runtime\library.
+js:121:7615)
+    at $n.handleAndLogR
+equestError 
+(C:\Users\LE TRONG VINH
+\Desktop\mekong-explore
+r\node_modules\@prisma\
+client\runtime\library.
+js:121:6623)
+    at $n.request 
+(C:\Users\LE TRONG VINH
+\Desktop\mekong-explore
+r\node_modules\@prisma\
+client\runtime\library.
+js:121:6307)
+    at async l 
+(C:\Users\LE TRONG VINH
+\Desktop\mekong-explore
+r\node_modules\@prisma\
+client\runtime\library.
+js:130:9633)
+    at async main 
+(C:\Users\LE TRONG VINH
+\Desktop\mekong-explore
+r\api\prisma\seed.ts:19
+:5) {
+  clientVersion: 
+'5.22.0',
+  errorCode: undefined
+}

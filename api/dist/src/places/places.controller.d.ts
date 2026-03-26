@@ -1,0 +1,153 @@
+import { PlacesService } from './places.service';
+import { CreatePlaceDto } from './dto/create-place.dto';
+import { UpdatePlaceDto } from './dto/update-place.dto';
+export declare class PlacesController {
+    private readonly placesService;
+    constructor(placesService: PlacesService);
+    create(createPlaceDto: CreatePlaceDto, req: any): Promise<{
+        id: string;
+        name: string;
+        slug: string;
+        createdAt: Date;
+        updatedAt: Date;
+        description: string;
+        categoryId: string;
+        latitude: number;
+        longitude: number;
+        address: string | null;
+        province: string;
+        averageRating: number;
+        reviewCount: number;
+        checkinCount: number;
+        status: import(".prisma/client").$Enums.PlaceStatus;
+        createdById: string | null;
+    }>;
+    findAll(page?: string, limit?: string): Promise<({
+        category: {
+            id: string;
+            name: string;
+            slug: string;
+            iconName: string | null;
+            createdAt: Date;
+        };
+    } & {
+        id: string;
+        name: string;
+        slug: string;
+        createdAt: Date;
+        updatedAt: Date;
+        description: string;
+        categoryId: string;
+        latitude: number;
+        longitude: number;
+        address: string | null;
+        province: string;
+        averageRating: number;
+        reviewCount: number;
+        checkinCount: number;
+        status: import(".prisma/client").$Enums.PlaceStatus;
+        createdById: string | null;
+    })[]>;
+    search(q: string): Promise<{
+        id: string;
+        name: string;
+        slug: string;
+        createdAt: Date;
+        updatedAt: Date;
+        description: string;
+        categoryId: string;
+        latitude: number;
+        longitude: number;
+        address: string | null;
+        province: string;
+        averageRating: number;
+        reviewCount: number;
+        checkinCount: number;
+        status: import(".prisma/client").$Enums.PlaceStatus;
+        createdById: string | null;
+    }[]>;
+    getNearby(lat: string, lng: string, radius?: string): Promise<unknown>;
+    findOne(id: string): Promise<({
+        category: {
+            id: string;
+            name: string;
+            slug: string;
+            iconName: string | null;
+            createdAt: Date;
+        };
+        reviews: {
+            id: string;
+            createdAt: Date;
+            updatedAt: Date;
+            status: import(".prisma/client").$Enums.ContentStatus;
+            placeId: string;
+            userId: string;
+            rating: number;
+            content: string | null;
+        }[];
+        photos: {
+            id: string;
+            createdAt: Date;
+            status: import(".prisma/client").$Enums.ContentStatus;
+            placeId: string;
+            uploaderId: string | null;
+            reviewId: string | null;
+            rawUrl: string;
+            webpUrl: string;
+            thumbnailUrl: string;
+        }[];
+    } & {
+        id: string;
+        name: string;
+        slug: string;
+        createdAt: Date;
+        updatedAt: Date;
+        description: string;
+        categoryId: string;
+        latitude: number;
+        longitude: number;
+        address: string | null;
+        province: string;
+        averageRating: number;
+        reviewCount: number;
+        checkinCount: number;
+        status: import(".prisma/client").$Enums.PlaceStatus;
+        createdById: string | null;
+    }) | null>;
+    update(id: string, updatePlaceDto: UpdatePlaceDto): Promise<{
+        id: string;
+        name: string;
+        slug: string;
+        createdAt: Date;
+        updatedAt: Date;
+        description: string;
+        categoryId: string;
+        latitude: number;
+        longitude: number;
+        address: string | null;
+        province: string;
+        averageRating: number;
+        reviewCount: number;
+        checkinCount: number;
+        status: import(".prisma/client").$Enums.PlaceStatus;
+        createdById: string | null;
+    }>;
+    remove(id: string): Promise<{
+        id: string;
+        name: string;
+        slug: string;
+        createdAt: Date;
+        updatedAt: Date;
+        description: string;
+        categoryId: string;
+        latitude: number;
+        longitude: number;
+        address: string | null;
+        province: string;
+        averageRating: number;
+        reviewCount: number;
+        checkinCount: number;
+        status: import(".prisma/client").$Enums.PlaceStatus;
+        createdById: string | null;
+    }>;
+}

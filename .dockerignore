@@ -1,0 +1,14 @@
+node_modules
+.next
+dist
+out
+.git
+.gitignore
+*.log
+.dockerignore
+Dockerfile*
+README.md
+build_errors.txt
+seed_error.txt
+tsc_errors.txt
+infra

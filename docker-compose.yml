@@ -1,38 +1,63 @@
 version: '3.8'
 
 services:
-  db:
-    image: postgis/postgis:15-3.3
-    container_name: mekong_db
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres_password
-      POSTGRES_DB: mekong_explorer
-    ports:
-      - '5432:5432'
-    volumes:
-      - mekong_pgdata:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d mekong_explorer"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-
-  # Optionally run backend via Docker (mostly for testing production builds locally)
-  # For active development, `npm run start:dev` inside /apps/api is recommended.
+  # NestJS API
   api:
-    build: 
-      context: ./api
-      # Dockerfile needed in /api if you want to use this service
-    container_name: mekong_api
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    container_name: mekong-api
+    restart: always
     ports:
-      - '3000:3000'
+      - "3000:3000"
+    env_file:
+      - api/.env
+    # Override only if you want to point away from Supabase
     environment:
-      - DATABASE_URL=postgresql://postgres:postgres_password@db:5432/mekong_explorer?schema=public
-      - JWT_SECRET=local_docker_jwt_secret
-    depends_on:
-      db:
-        condition: service_healthy
+      - NODE_ENV=production
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
-volumes:
-  mekong_pgdata:
+  # Next.js Web App
+  web:
+    build:
+      context: .
+      dockerfile: web/Dockerfile
+    container_name: mekong-web
+    restart: always
+    ports:
+      - "3001:3001"
+    env_file:
+      - web/.env.local
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=http://localhost:3000/api/v1
+      - HOSTNAME=0.0.0.0
+      - PORT=3001
+    depends_on:
+      - api
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # Redis for Cache & Queue
+  redis:
+    image: redis:alpine
+    container_name: mekong-redis
+    restart: always
+    ports:
+      - "6379:6379"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  default:
+    name: mekong-network

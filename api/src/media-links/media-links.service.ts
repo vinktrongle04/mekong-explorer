@@ -1,16 +1,21 @@
-import { Injectable, BadRequestException, ConflictException, NotFoundException } from '@nestjs/common';
+import { Injectable, BadRequestException, ConflictException, NotFoundException, Inject } from '@nestjs/common';
+import { InjectQueue } from '@nestjs/bullmq';
+import { Queue } from 'bullmq';
 import { MediaLinksRepository } from './media-links.repository';
 import { CreateMediaLinkDto } from './dto/create-media-link.dto';
 import { MediaStatus } from '@prisma/client';
 
-type Platform = 'TIKTOK' | 'FACEBOOK' | 'YOUTUBE';
+export type Platform = 'TIKTOK' | 'FACEBOOK' | 'YOUTUBE';
 
 @Injectable()
 export class MediaLinksService {
-  constructor(private readonly repo: MediaLinksRepository) {}
+  constructor(
+    private readonly repo: MediaLinksRepository,
+    @InjectQueue('media-links') private readonly mediaQueue: Queue,
+  ) {}
 
   /** Detect platform from URL */
-  private detectPlatform(url: string): Platform {
+  public detectPlatform(url: string): Platform {
     if (/tiktok\.com/i.test(url)) return 'TIKTOK';
     if (/facebook\.com/i.test(url)) return 'FACEBOOK';
     if (/youtube\.com|youtu\.be/i.test(url)) return 'YOUTUBE';
@@ -18,7 +23,7 @@ export class MediaLinksService {
   }
 
   /** Convert public URL to embeddable iframe URL */
-  generateEmbedUrl(url: string, platform: Platform): string {
+  public generateEmbedUrl(url: string, platform: Platform): string {
     switch (platform) {
       case 'YOUTUBE': {
         // Handle both youtube.com/watch?v=ID and youtu.be/ID
@@ -41,20 +46,24 @@ export class MediaLinksService {
   }
 
   async submit(dto: CreateMediaLinkDto) {
-    const platform = this.detectPlatform(dto.url);
-    const embedUrl = this.generateEmbedUrl(dto.url, platform);
-
-    // Duplicate check
+    // 1. Synchronous check for duplicates
     const existing = await this.repo.findByPlaceAndUrl(dto.placeId, dto.url);
     if (existing) throw new ConflictException('This link has already been submitted for this place');
 
-    return this.repo.create({
+    // 2. Create the record in the DB (initially without platform/embedUrl)
+    const record = await this.repo.create({
       placeId: dto.placeId,
       submittedById: dto.userId || null,
       url: dto.url,
-      embedUrl,
-      platform,
     });
+
+    // 3. Add to processing queue
+    await this.mediaQueue.add('process-media', {
+      id: record.id,
+      url: dto.url,
+    });
+
+    return record;
   }
 
   async getApprovedForPlace(placeId: string) {
