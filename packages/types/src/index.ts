@@ -26,6 +26,7 @@ export interface Place {
   averageRating: number;
   reviewCount: number;
   status: 'PENDING' | 'APPROVED' | 'REJECTED';
+  thumbnailUrl?: string | null;
 }
 
 export interface Review {
